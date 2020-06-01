@@ -1,0 +1,52 @@
+---
+title: Reading data from a passport NFC chip
+weight: 7
+last_reviewed_on: 2020-05-20
+review_in: 6 weeks
+---
+# Reading data from a passport NFC chip
+
+Passports issued by Her Majesty's Passport Office (HMPO) conform to the international specification for machine-readable travel documents, [ICAO 9303].
+
+Many of these passports contain a near-field communication (NFC) chip which holds a copy of the document's data.
+
+Valid passports may fail a DCS check when using data provided by the passport's NFC chip rather than the information printed on the passport's photo page.
+
+## Reduced character set in the MRZ
+
+The data on the chip and in the printed Machine-Readable Zone (MRZ) uses a smaller set of characters than the printed information in the Visual Inspection Zone (VIZ).
+
+MRZ data is restricted to the numbers 0-9, the letters A-Z, and a filler character `<`.
+
+Characters outside of this set are either omitted or replaced with the filler character according to the rules below:
+
+* Apostrophes (`’`) will be omitted. For example, O’NEILL (VIZ) and ONEILL (MRZ)
+* Spaces will be replaced with the filler character. For example, ANNA MARIE (VIZ) and ANNA<MARIE (MRZ).
+* Hyphens (`-`) will be replaced with the filler character. For example, ANNA-MARIE (VIZ) and ANNA<MARIE (MRZ).
+* Diacritics and non-alphanumeric characters (`á`,`ß`, `Д`) should be transliterated according to Section 6 of [ICAO 9303]. For example, ZOË (VIZ) and ZOE (MRZ)
+
+Documents are validated against records corresponding to the VIZ data, not the MRZ data. Some passport holders’ names will appear differently in MRZ and VIZ formats due to character omission or replacement.
+
+In this case DCS checks using data the passport chip will not match the actual record and your service will receive a `valid: false` response.
+
+## Example of MRZ-based data issues
+
+Imagine a passport holder with a single forename, "Sarah-Jane".
+
+This is encoded in the MRZ as `SARAH<JANE` and in the VIZ as `SARAH-JANE`.
+
+As the filler character can mean a hyphen or a space, the forename field provided by the MRZ has two possible interpretations: "SARAH-JANE" (one forename) and "SARAH JANE" (two forenames).
+
+Both of these interpretations pass [DCS field validation](/api-reference/#forenames) but only one is a valid document. The other will return `valid: false`.
+
+Without consulting the VIZ data, there is no way to tell which interpretation is correct.
+
+## Improving the accuracy of MRZ-based checks
+
+You can reduce the number of incorrectly failed checks by:
+
+* Manually inspecting failed checks which used NFC data
+* Trying the DCS check with each interpretation if there is ambiguity
+* Allowing the user to input their passport data manually if they fail a check using NFC data
+
+<%= partial "partials/links" %>
