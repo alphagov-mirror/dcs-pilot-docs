@@ -26,7 +26,7 @@ Characters different to 0-9, A-Z and '<' are either omitted or replaced with a f
 * hyphens (`-`) are replaced with '<', for example, ANNA-MARIE (VIZ) and ANNA<MARIE (MRZ)
 * accents and other non-alphanumeric characters (`á`,`ß`, `Д`) should be replaced using the closest corresponding letters of a different alphabet or language, for example, ZOË (VIZ) and ZOE (MRZ)
 
-Documents are validated against records corresponding to the VIZ data, not the MRZ data. Some passport holders’ names will appear differently in MRZ and VIZ formats due to character omission or replacement.
+The DCS validates documents against records corresponding to the VIZ data, not the MRZ data. Some passport holders’ names will appear differently in MRZ and VIZ formats because of the character omission or replacement.
 
 In this case DCS checks using data the passport chip will not match the actual record and your service will receive a `valid: false` response.
 
