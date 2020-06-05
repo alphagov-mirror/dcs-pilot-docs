@@ -13,18 +13,11 @@ To send requests to the Document Checking Service (DCS) you’ll need to generat
 * JSON signing
 * JSON encryption
 
-You’ll need to generate your keys and certificates using the following steps.
+## Certificate validity period
 
-1. Generate a private RSA key.
-1. Create a Certificate Signing Request (CSR).
-1. Submit the CSR to the GDS Certificate Authority (CA).
-1. The GDS CA will issue your certificate, which can take up to 2 working days.
+DCS certificates must expire after 12 months. You'll need to request a 12 month validity period when you raise your certificate signing request (CSR).
 
-The GDS CA must sign and issue the certificates.
-
-This documentation gives examples of how you’d follow this process using OpenSSL. You can use other methods if you prefer.
-
-## Keep your keys secure
+## Keeping your keys secure
 
 You must make sure you:
 
@@ -37,6 +30,19 @@ If you suspect your keys have been compromised:
 + stop using the compromised keys
 
 You must handle your integration keys as securely as your production keys. The DCS integration environment is a live service.
+
+## How to generate your keys and certificates
+
+You’ll need to generate your keys and certificates using the following steps.
+
+1. Generate a private RSA key.
+1. Create a Certificate Signing Request (CSR).
+1. Submit the CSR to the GDS Certificate Authority (CA).
+1. The GDS CA will issue your certificate, which can take up to 2 working days.
+
+The GDS CA must sign and issue the certificates.
+
+This documentation gives examples of how you’d follow this process using OpenSSL. You can use other methods if you prefer.
 
 ## Generate a private RSA key
 
@@ -85,7 +91,7 @@ You must enter information for the following fields:
 * `Organization Name`
 * `Common Name`
 * `challenge password` - this can be any password you choose, but note this down as you’ll need to enter it again when submitting the CSR
-
+  
 You can leave the other fields blank.
 
 For `Common Name`, use the naming convention:
